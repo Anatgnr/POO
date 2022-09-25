@@ -1,0 +1,97 @@
+CAS 1   X et Y du robot sont différents de x et y de la cible
+
+POUR X :
+si le X du robot est inferieur à celui du robot alors la cible est à droite donc effectuer +1 en x pour se deplacer
+
+si le X du robot est superieur c'est l'inverse -1 pour se deplacer
+
+Pour Y :
+
+si le Y du robot est inferieur à celui du robot alors la cible est au dessus donc effectuer +1 en y pour se deplacer
+
+si le Y du robot est superieur c'est l'inverse -1 pour se deplacer
+
+
+CAS 2   X == x et Y != y
+
+on va simplement repeter les sous cas y 
+
+
+CAS 3   X != x et Y == y
+
+on va simplement repeter les sous cas x
+
+Normalement vu qu'on a fait un check (canmove) on retourne le tableau de position
+
+
+code cassé 
+
+       if(canMove(target)) {
+            Position[] tablo = new Position[this.distance(target)];// tableau de la taille du nombre de positions à stocker
+
+            int i = 0;// index du tableau
+            int countposx = 1;
+            int countnegx = -1;
+            int countposy = 1;
+            int countnegy = -1;
+            while (this.getPosition().getX() != target.getX() && this.getPosition().getY() != target.getY()) {
+                //       CAS X et Y du robot différents de x et y de la cible
+
+                if (this.getPosition().getX() != target.getX() && this.getPosition().getY() != target.getY()) {
+                    if (this.getPosition().getX() < target.getX()) {
+                        //          POUR X à gauche de la cible
+                        tablo[i] = new Position(this.getPosition().getX() + countposx, this.getPosition().getY());
+                        i++;
+                    }
+                    if (this.getPosition().getX() > target.getX()) {
+                        //          POUR X à droite de la cible
+                        tablo[i] = new Position(this.getPosition().getX() + countnegx, this.getPosition().getY());
+                        i++;
+                    }
+                    //          POUR Y en dessous de la cible
+                    if (this.getPosition().getY() < target.getY()) {
+                        tablo[i] = new Position(this.getPosition().getX(), this.getPosition().getY() + countposy);
+                        i++;
+                    }
+                    if (this.getPosition().getY() > target.getY()) {
+                        //          POUR Y au dessus de la cible
+                        tablo[i] = new Position(this.getPosition().getX(), this.getPosition().getY() + countnegy);
+                        i++;
+                    }
+                }
+
+                //       CAS Y du robot différent du y de la cible et X et x sont les mêmes
+
+                if (this.getPosition().getX() == target.getX() && this.getPosition().getY() != target.getY()) {
+                    if (this.getPosition().getY() < target.getY()) {
+                        //          POUR Y en dessous de la cible
+                        tablo[i] = new Position(this.getPosition().getX(), this.getPosition().getY() + countposy);
+                    }
+                    if (this.getPosition().getY() > target.getY()) {
+                        //          POUR Y au dessus de la cible
+                        tablo[i] = new Position(this.getPosition().getX(), this.getPosition().getY() + countnegy);
+                    }
+                    i++;
+                }
+
+                //       CAS X du robot différent du x de la cible et Y et y sont les mêmes
+
+                if (this.getPosition().getX() != target.getX() && this.getPosition().getY() == target.getY()) {
+                    if (this.getPosition().getX() < target.getX()) {
+                        //          POUR X à gauche de la cible
+                        tablo[i] = new Position(this.getPosition().getX() + countposx, this.getPosition().getY());
+                    }
+                    if (this.getPosition().getX() > target.getX()) {
+                        //          POUR X à droite de la cible
+                        tablo[i] = new Position(this.getPosition().getX() + countnegx, this.getPosition().getY());
+                    }
+                    i++;
+                }
+                printPos(tablo[i]);
+                return tablo;
+            }
+        }
+        Position tablovide[] = {};
+        return tablovide;
+    }
+
