@@ -1,34 +1,14 @@
 package fr.ubx.poo.td2;
 
-public class Vehicule {
-    private final int cost;
-    private Position position;
-    private int energy;
+public class Vehicule  {
+    protected final double cost;
+    protected Position position;
+    protected double energy;
 
-    public Vehicule(Position position, int energy, int cost) {
-        this.position = position;
-        this.energy = energy;
+    public Vehicule(double cost, Position pos, double energy) {
         this.cost = cost;
-    }
-    public Vehicule(int x, int y, int energy, int cost) {
-        this.position = new Position(0,0);
-        this.position.setX(x);
-        this.position.setY(y);
+        this.position = new Position(pos);
         this.energy = energy;
-        this.cost = cost;
-    }
-
-    int getEnergy() {
-        return this.energy;
-    }
-    public void setEnergy(int mana){
-        this.energy = mana;
-    }
-    int getCost() {
-        return this.cost;
-    }
-    public void printPos(Position pos){
-        System.out.println("x = " + pos.getX() + " " + "y = " + pos.getY());
     }
 
     public Position getPosition() {
@@ -36,8 +16,8 @@ public class Vehicule {
     }
 
     // TODO
-    public int range() {
-        return(this.getEnergy()/this.getCost());
+    private int range() {
+        return (int) (this.energy / this.cost);
     }
 
     // TODO
@@ -47,28 +27,28 @@ public class Vehicule {
 
     // TODO
     public boolean canMove(Position target) {
-        boolean distance_range = this.distance(target)<=this.range(); // variable qui retourne si la range est respectee
-        boolean enough_mana = this.getEnergy()>=(this.distance(target) * this.getCost());
-        if(distance_range == true && enough_mana == true){return true;}
-        else{return false;}
+        if (distance(target) <= range()) {
+            return true;
+        }
+        return false;
     }
 
     // TODO
     public void move(Position target) {
-        if(canMove(target)==true){
-            this.setEnergy(this.getEnergy() - (this.distance(target) * this.getCost()));
-            this.getPosition().setX(target.getX());
-            this.getPosition().setY(target.getY());
-        } 
+        if (canMove(target)) {
+            this.energy -= distance(target) * this.cost;
+            this.position.setX(target.getX());
+            this.position.setY(target.getY());
+        }
+        System.out.println("Move completed: " + this);
+    }
+    @Override
+    public String toString(){
+
+        return "(Energy="+ this.energy+")";
     }
 
     // TODO
-    public Position[] getPathTo(Position target) {
-        return null;
-    }
+    public Position[] getPathTo(Position target) {return  null;}
 
-// END OF CLASS
 }
-
-
-

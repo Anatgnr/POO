@@ -8,48 +8,8 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 public class SpriteDrone extends Sprite{
-    private Drone robot;
-    private ImageView img;
-
-    public SpriteDrone(Drone robot) {
-    super(robot,ImageResource.imageDrone);
-    }
-
-    @Override private void updateLocation(Position position) {
-        img.setX(position.getX() * ImageResource.size);
-        img.setY(position.getY() * ImageResource.size);
-    }
-
-    @Override public ImageView getImg() {
-        return img;
-    }
-
-    @Override public void animateMove(Position target) {
-        // Make the path movement
-        Position[] positionPath = robot.getPathTo(target);
-
-        if (positionPath != null) {
-            Path path = new Path();
-
-            path.getElements().add(new MoveTo(robot.getPosition().getX() * ImageResource.size + ImageResource.size / 2,
-                    robot.getPosition().getY() * ImageResource.size + ImageResource.size / 2));
-            for (Position pos : positionPath) {
-                path.getElements().add(new LineTo(pos.getX() * ImageResource.size + ImageResource.size / 2, pos.getY() * ImageResource.size + ImageResource.size / 2));
-            }
-
-            PathTransition ptr = new PathTransition();
-            ptr.setDuration(Duration.millis(300 * robot.distance(target)));
-            ptr.setPath(path);
-            ptr.setNode(getImg());
-            ptr.play();
-
-            ptr.setOnFinished(e -> {
-                robot.move(target);
-            });
-        } else {
-            // Direct move
-            robot.move(target);
-            updateLocation(target);
-        }
+    public SpriteDrone(Drone drone, ImageView image) {
+        super(drone,image);
+        updateLocation(drone.getPosition());
     }
 }
