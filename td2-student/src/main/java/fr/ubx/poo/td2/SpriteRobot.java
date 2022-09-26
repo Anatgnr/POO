@@ -12,9 +12,7 @@ public class SpriteRobot extends Sprite{
     private ImageView img;
 
     public SpriteRobot(Robot robot) {
-        this.robot = robot;
-        img = new ImageView(ImageResource.imageRobot);
-        updateLocation(robot.getPosition());
+    super(robot,ImageResource.imageRobot);
     }
 
     @Override private void updateLocation(Position position) {

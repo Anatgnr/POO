@@ -12,9 +12,7 @@ public class SpriteDrone extends Sprite{
     private ImageView img;
 
     public SpriteDrone(Drone robot) {
-        this.robot = robot;
-        img = new ImageView(ImageResource.imageDrone);
-        updateLocation(robot.getPosition());
+    super(robot,ImageResource.imageDrone);
     }
 
     @Override private void updateLocation(Position position) {

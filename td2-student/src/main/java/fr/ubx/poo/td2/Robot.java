@@ -1,89 +1,24 @@
 package fr.ubx.poo.td2;
 
 public class Robot extends Vehicule{
-    private final int cost;
-    private Position position;
-    private int energy;
-
 
     public Robot(Position position, int energy, int cost) {
-        this.position = position;
-        this.energy = energy;
-        this.cost = cost;
+        super(position, energy, cost);
     }
     public Robot(int x, int y, int energy, int cost) {
-        this.position = new Position(0,0);
-        this.position.setX(x);
-        this.position.setY(y);
-        this.energy = energy;
-        this.cost = cost;
+        super(x, y, energy, cost);
     }
-
-    @Override int getEnergy() {
-        return this.energy;
-    }
-    @Override public void setEnergy(int mana){
-        this.energy = mana;
-    }
-    @Override int getCost() {
-        return this.cost;
-    }
-    @Override public void printPos(Position pos){
-        System.out.println("x = " + pos.getX() + " " + "y = " + pos.getY());
-    }
-
-    @Override public Position getPosition() {
-        return position;
-    }
-
-    // TODO
-    @Override public int range() {
-        return(this.getEnergy()/this.getCost());
-    }
-
-    // TODO
     @Override public int distance(Position target) {
         int tx = target.getX();
         int ty = target.getY();
-        int px = this.position.getX();
-        int py = this.position.getY();
+        int px = getPosition().getX();
+        int py = getPosition().getY();
         int distance = Math.abs(tx - px) + Math.abs(ty - py);
         // System.out.println("distance = " + distance);
         return distance;
     }
 
-    // TODO
-    @Override public boolean canMove(Position target) {
-        boolean distance_range = this.distance(target)<=this.range(); // variable qui retourne si la range est respectee
-        boolean enough_mana = this.getEnergy()>=(this.distance(target) * this.getCost());
-        if(distance_range == true && enough_mana == true){return true;}
-        else{return false;}
-    }
-
-    // TODO
-    @Override public void move(Position target) {
-        if(canMove(target)==true){
-            this.setEnergy(this.getEnergy() - (this.distance(target) * this.getCost()));
-            this.getPosition().setX(target.getX());
-            this.getPosition().setY(target.getY());
-        } 
-    }
-
-    // TODO
     @Override public Position[] getPathTo(Position target) {
-
-            /*############################################################################*/
-            //                             X THEN Y METHOD                                //
-            /*############################################################################*/
-            // Position[] tablo = new Position[2];
-            // if(canMove(target)==true){
-            //     tablo[0] = new Position(target.getX(), this.position.getY());
-            //     tablo[1] = new Position(target.getX(),target.getY());
-            // }
-            // return tablo;
-            /*############################################################################*/
-            //                              STAIRS METHOD                                 //
-            /*############################################################################*/
 
             //test de position pour X robot:
         int x,y; //variable pour stocker vers ou aller

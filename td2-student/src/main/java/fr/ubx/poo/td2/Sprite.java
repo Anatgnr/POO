@@ -8,13 +8,13 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 public class Sprite{
-    private Drone robot;
+    private Vehicule v;
     private ImageView img;
 
-    public Sprite(Vehicule robot){
-        this.robot = robot;
-        img = new ImageView(ImageResource.imageDrone);
-        updateLocation(robot.getPosition());
+    public Sprite(Vehicule v,Image imag){
+        this.v = v;
+        img = new ImageView(imag);
+        updateLocation(v.getPosition());
     }
 
     private void updateLocation(Position position) {
@@ -28,29 +28,29 @@ public class Sprite{
 
     public void animateMove(Position target) {
         // Make the path movement
-        Position[] positionPath = robot.getPathTo(target);
+        Position[] positionPath = v.getPathTo(target);
 
         if (positionPath != null) {
             Path path = new Path();
 
-            path.getElements().add(new MoveTo(robot.getPosition().getX() * ImageResource.size + ImageResource.size / 2,
-                    robot.getPosition().getY() * ImageResource.size + ImageResource.size / 2));
+            path.getElements().add(new MoveTo(v.getPosition().getX() * ImageResource.size + ImageResource.size / 2,
+                    v.getPosition().getY() * ImageResource.size + ImageResource.size / 2));
             for (Position pos : positionPath) {
                 path.getElements().add(new LineTo(pos.getX() * ImageResource.size + ImageResource.size / 2, pos.getY() * ImageResource.size + ImageResource.size / 2));
             }
 
             PathTransition ptr = new PathTransition();
-            ptr.setDuration(Duration.millis(300 * robot.distance(target)));
+            ptr.setDuration(Duration.millis(300 * v.distance(target)));
             ptr.setPath(path);
             ptr.setNode(getImg());
             ptr.play();
 
             ptr.setOnFinished(e -> {
-                robot.move(target);
+                v.move(target);
             });
         } else {
             // Direct move
-            robot.move(target);
+            v.move(target);
             updateLocation(target);
         }
     }
