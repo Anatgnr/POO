@@ -18,10 +18,6 @@ public abstract class Sprite {
         this.img = image;
     }
 
-    public Sprite(ImageView image)
-    {
-        this.img = image;
-    }
 
     protected void updateLocation(Position position) {
         img.setX(position.getX() * ImageResource.size);
