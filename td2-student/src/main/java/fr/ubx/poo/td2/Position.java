@@ -42,8 +42,16 @@ public class Position {
     }
     public boolean equals(Position pos1, Position pos2){
         if(pos1.getX()== pos2.getX()&&pos1.getY()== pos2.getY()){
+            System.out.print("equals");
             return true;
         }
         return false;
     }
+    //public boolean equals(Position pos1, Position pos2){
+      //  if(pos1.getX()== pos2.getX()&&pos1.getY()== pos2.getY()){
+        //    System.out.print("equals");
+            return true;
+        //}
+       // return false;
+    //}
 }

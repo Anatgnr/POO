@@ -1,9 +1,11 @@
-package fr.ubx.poo.td2;
+package model;
+
+import fr.ubx.poo.td2.Position;
 
 public class Robot extends Vehicule {
 
 
-    public Robot(Position pos,double energy, double cost) {
+    public Robot(Position pos, double energy, double cost) {
         super(cost, pos, energy);
 
     }

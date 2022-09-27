@@ -1,6 +1,8 @@
-package fr.ubx.poo.td2;
+package model;
 
-public class Vehicule  {
+import fr.ubx.poo.td2.Position;
+
+public abstract class Vehicule  {
     protected final double cost;
     protected Position position;
     protected double energy;
