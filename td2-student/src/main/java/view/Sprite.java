@@ -8,6 +8,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import model.World;
 
 public abstract class Sprite {
     protected Vehicule vehicule;
@@ -28,9 +29,9 @@ public abstract class Sprite {
         return img;
     }
 
-    public void animateMove(Position target) {
+    public void animateMove(Position target, World w) {
         // Make the path movement
-        Position[] positionPath = vehicule.getPathTo(target);
+        Position[] positionPath = vehicule.getPathTo(target, w);
 
         if (positionPath != null) {
             Path path = new Path();

@@ -51,6 +51,6 @@ public abstract class Vehicule  {
     }
 
     // TODO
-    public Position[] getPathTo(Position target) {return  null;}
+    public Position[] getPathTo(Position target, World w) {return  null;}
 
 }

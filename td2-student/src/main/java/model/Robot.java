@@ -15,8 +15,9 @@ public class Robot extends Vehicule {
         return Math.abs(target.getX() - position.getX()) + Math.abs(target.getY() - position.getY());
     }
     @Override
-    public Position[] getPathTo(Position target) {
+    public Position[] getPathTo(Position target, World w) {
         Position[] tab = new Position[distance(target) + 1];
+
         int x, y;
         if (position.getX() < target.getX()) {
             x = 1;
@@ -41,24 +42,28 @@ public class Robot extends Vehicule {
 
         tab[0] = new Position(position.getX(), position.getY());
 
-        for (int i = 1; i < distance(target) + 1; i++) {
-            if (i % 2 == 0) {
-                if (tab[i - 1].getX() == target.getX()) {
-                    tab[i] = new Position(tab[i - 1].getX(), tab[i - 1].getY() + y);
-                } else {
-                    tab[i] = new Position(tab[i - 1].getX() + x, tab[i - 1].getY());
+        if(w.get(target) != World.ROCK) {
+            for (int i = 1; i < distance(target) + 1; i++) {
+                if (i % 2 == 0) {
+
+
+                    if (tab[i - 1].getX() == target.getX()) {
+                        tab[i] = new Position(tab[i - 1].getX(), tab[i - 1].getY() + y);
+                    } else {
+                        tab[i] = new Position(tab[i - 1].getX() + x, tab[i - 1].getY());
+                    }
+
+                }
+                if (i % 2 == 1) {
+                    if (tab[i - 1].getY() == target.getY()) {
+                        tab[i] = new Position(tab[i - 1].getX() + x, tab[i - 1].getY());
+                    } else {
+                        tab[i] = new Position(tab[i - 1].getX(), tab[i - 1].getY() + y);
+                    }
+
                 }
 
             }
-            if (i % 2 == 1) {
-                if (tab[i - 1].getY() == target.getY()) {
-                    tab[i] = new Position(tab[i - 1].getX() + x, tab[i - 1].getY());
-                } else {
-                    tab[i] = new Position(tab[i - 1].getX(), tab[i - 1].getY() + y);
-                }
-
-            }
-
         }
         return tab;
     }

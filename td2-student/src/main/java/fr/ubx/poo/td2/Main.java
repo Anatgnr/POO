@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import model.Drone;
 import model.Robot;
 import model.Vehicule;
+import model.World;
 import view.ImageResource;
 import view.Sprite;
 import view.View;
@@ -30,9 +31,7 @@ public class Main extends Application {
         Sprite[]spritesTab = new Sprite[]{new SpriteRobot((Robot) playerTab[0],new ImageView(ImageResource.imageRobot)),
                 new SpriteDrone((Drone) playerTab[1],new ImageView(ImageResource.imageDrone))};
 
-        Position dust = new Position(5,5);
-        Position rock = new Position(10,6);
-        SpriteDecor[] decorsTab = new SpriteDecor[]{new SpriteDust(dust),new SpriteRock(rock)};
+
 
 
 
@@ -40,7 +39,10 @@ public class Main extends Application {
 
         // Affiche la fenetre
 
-        View view = new View(20, 20);
+        World w = new World(20,20,3,5);
+        //System.out.printf("getrock %f : ",w.getRock());
+        SpriteDecor[] decor = w.generate();
+        View view = new View(w.getWidth(), w.getHeight());
         stage.setTitle("POO");
         stage.setScene(view.getPane().getScene());
         stage.show();
@@ -48,13 +50,17 @@ public class Main extends Application {
             Position target = view.getPosition(e);
             for(int i=0;i<playerTab.length;i++){
                 if (playerTab[i].canMove(target)&&!playerTab[i].getPosition().equals(playerTab[i].getPosition(), target)) {
-                    spritesTab[i].animateMove(target);
+                    spritesTab[i].animateMove(target, w);
                 }
             }
         });
 
+        for(int i = 0 ; i < decor.length ; i++)
+        {
+            view.getPane().getChildren().addAll(decor[i].getImg());
+        }
         view.getPane().getChildren().addAll(spritesTab[0].getImg(),spritesTab[1].getImg());
-        view.getPane().getChildren().addAll(decorsTab[0].getImg(),decorsTab[1].getImg());
+      //  view.getPane().getChildren().addAll(decorsTab[0].getImg(),decorsTab[1].getImg());
 
     }
 

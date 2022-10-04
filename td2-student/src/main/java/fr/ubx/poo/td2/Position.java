@@ -1,4 +1,5 @@
 package fr.ubx.poo.td2;
+import java.util.Random;
 
 //import org.jetbrains.annotations.NotNull;
 
@@ -46,6 +47,22 @@ public class Position {
             return true;
         }
         return false;
+    }
+
+    public static Position random()
+    {
+
+        Random random = new Random();
+        int r1 = random.nextInt(19);
+        int r2 = random.nextInt(19);
+        Position pos = new Position(r1,r2);
+        return pos;
+    }
+
+    public static Position generation(int x, int y)
+    {
+        return new Position(x,y);
+
     }
     //public boolean equals(Position pos1, Position pos2){
       //  if(pos1.getX()== pos2.getX()&&pos1.getY()== pos2.getY()){

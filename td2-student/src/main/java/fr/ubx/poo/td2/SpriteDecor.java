@@ -14,6 +14,10 @@ public class SpriteDecor {
         this.m_position = new Position(pos);
     }
 
+    public Position getPosition() {
+        return m_position;
+    }
+
     protected void updateLocation(Position position) {
         this.m_img.setX(position.getX() * ImageResource.size);
         this.m_img.setY(position.getY() * ImageResource.size);
