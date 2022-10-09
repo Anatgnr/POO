@@ -62,13 +62,13 @@ public class EditorView extends BorderPane {
         // Load from String
         loadItemS.setOnAction(e -> {
             Form form = new Form(stage, "Input string");
-//            this.grid = gridRepoString.load(form.getText());
+            this.grid = gridRepoString.load(form.getText());
             updateGrid(grid);
         });
 
         // Export as String
         exportItemS.setOnAction(e -> {
-//            exportDialog(gridRepoString.export(grid));
+            exportDialog(gridRepoString.export(grid));
         });
 
         // Load from compressed String

@@ -34,7 +34,7 @@ public class GridRepoVar implements GridRepo{
             return null;
 
         Grid g = new Grid(entities[0].length, entities.length);
-        System.out.println(entities[0].length + entities.length);
+        // System.out.println(entities[0].length + entities.length);
         // sample1[0].length -> renvoie le nombre d'elts dans une case ici la case 0 et sample.length renvoie le nombre de cases
         for(int i = 0; i< entities.length ; i++)
             for(int j = 0; j < entities[0].length; j++)
