@@ -34,6 +34,7 @@ public class GridRepoString implements GridRepo{
         for(int j = 0; j < string.length(); j++)
         {
             a = string.charAt(j);
+            System.out.println(a);
             if (a == EOL)
             {
                 i++;
@@ -47,17 +48,22 @@ public class GridRepoString implements GridRepo{
                 {
                     case 'G':
                         g.set(cpt2,i,Entity.GROUND);
+                        break;
                     case 'D':
                         g.set(cpt2,i,Entity.DUST);
+                        break;
                     case 'R':
                         g.set(cpt2,i,Entity.ROCK);
+                        break;
                     case 'B':
                         g.set(cpt2,i,Entity.BIGROCK);
+                        break;
                     case 'C':
                         g.set(cpt2,i,Entity.CRACK);
+                        break;
                 }
+                cpt2 ++;
             }
-            cpt2 ++;
         }
         return g;
     }
