@@ -20,10 +20,10 @@ public class GridRepoString implements GridRepo{
         }
         // Ok jusque LA
 
-        System.out.println("nblines " + countlines +" strl " + string.length());
+        //System.out.println("nblines " + countlines +" strl " + string.length());
 
         int countcharperlines = (string.length() - countlines)/countlines;
-        System.out.println("char par lignes = " + countcharperlines);
+        //System.out.println("char par lignes = " + countcharperlines);
         // Ok
 
         // nbcases = nbx ## nbchar\x = nbchar - nbx donc ## nbchar/cases = nbchar\x / nbx ##
@@ -34,7 +34,7 @@ public class GridRepoString implements GridRepo{
         for(int j = 0; j < string.length(); j++)
         {
             a = string.charAt(j);
-            System.out.println(a);
+            // System.out.println(a);
             if (a == EOL)
             {
                 i++;
@@ -70,6 +70,31 @@ public class GridRepoString implements GridRepo{
 
     @Override
     public String export(Grid grid) {
-        return null;
+        String s = "";
+        for(int i = 0; i< grid.getHeight();i++) {
+            for (int j = 0; j < grid.getWidth(); j++) {
+                // System.out.println("sout : " + grid.get(j, i));
+                switch(grid.get(j, i)){
+                    case ROCK:
+                        s+='R';
+                        break;
+                    case DUST:
+                        s+='D';
+                        break;
+                    case BIGROCK:
+                        s+='B';
+                        break;
+                    case GROUND:
+                        s+='G';
+                        break;
+                    case CRACK:
+                        s+='C';
+                        break;
+                }
+            }
+            s+= 'x';
+        }
+        return s;
+        // OK
     }
 }
