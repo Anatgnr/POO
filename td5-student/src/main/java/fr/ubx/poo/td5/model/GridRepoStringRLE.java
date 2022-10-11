@@ -8,17 +8,51 @@ public class GridRepoStringRLE implements GridRepo{
         Grid g;
         char a;
         char b;
-        char s = "";
+        char c;
+        //String s = "";
         int countlines = 0;
         int cpt = 0;
+        int compteursave = 0;
         while(cpt != string.length())
         {
             a = string.charAt(cpt);
             if (a == EOL)
+            {
                 countlines ++;
+            }
+            if(a == EOL && compteursave == 0)
+            {
+                countlines++;
+                compteursave = cpt;
+            }
             cpt ++;
         }
-        int countcharperlines = (string.length() - countlines)/countlines;
+        int countcharperlines = 0;//(string.length() - countlines)/countlines;
+        int test = 0;
+        System.out.print("compteur save : " + compteursave + "\n");
+        for(int y = 0; y < compteursave ; y++)
+        {
+            a = string.charAt(y);
+            if(y < string.length() - 1) {
+                c = string.charAt(y+1);
+                System.out.print("c : " + c + "\n");
+            }
+            else
+            {
+                c = 125;
+            }
+            if(a > 57 && c > 57)
+            {
+                test++;
+            }
+            else if(a > 30 && a <= 57)
+            {
+                b = string.charAt(y);
+                test += Character.getNumericValue(b);
+            }
+        }
+        countcharperlines = test;
+        System.out.print("cpt : " + test + " count : " + countcharperlines + "\n");
         g = new Grid(countcharperlines,countlines);
         int cpt2 = 0;
         int cpt3 = 1;
@@ -26,6 +60,15 @@ public class GridRepoStringRLE implements GridRepo{
         for(int j = 0; j < string.length(); j++)
         {
             a = string.charAt(j);
+            //System.out.print("j : " + j + " length : " + string.length() + "\n") ;
+            if(j < string.length() - 1) {
+                c = string.charAt(j+1);
+                //System.out.print("c : " + c + "\n");
+            }
+            else
+            {
+                c = 125;
+            }
             // System.out.println(a);
             if (a == EOL)
             {
@@ -34,54 +77,139 @@ public class GridRepoStringRLE implements GridRepo{
                 cpt2 = 0;
                 // count the number of char ea ch times we have a new line
             }
-            else
+            else if(a > 30 && a <= 57)
             {
-                if (j != 0)
+                //System.out.print("WOOP\n");
+                b = string.charAt(j-1);
+                //System.out.print("b : " + b + " a numeric : " + a + "\n");
+                for(int k = 0 ; k < Character.getNumericValue(a); k++)
                 {
-                    b = string.charAt(j);
-                    if(a == b)
+                    switch(b)
                     {
-                        cpt3 ++;
-                    }
-                    else
-                    {
-                        if(cpt3 == 0)
-                        {
-                            switch(a)
-                            {
-                                case 'G':
-                                    g.set(cpt2,i,Entity.GROUND);
-                                    break;
-                                case 'D':
-                                    g.set(cpt2,i,Entity.DUST);
-                                    break;
-                                case 'R':
-                                    g.set(cpt2,i,Entity.ROCK);
-                                    break;
-                                case 'B':
-                                    g.set(cpt2,i,Entity.BIGROCK);
-                                    break;
-                                case 'C':
-                                    g.set(cpt2,i,Entity.CRACK);
-                                    break;
-                            }
-                        }
-                        else{
-                            cpt3 = 0;
-                            s += cpt3;
-                        }
-
+                        case 'G':
+                            g.set(cpt2,i,Entity.GROUND);
+                            cpt2++;
+                            break;
+                        case 'D':
+                            g.set(cpt2,i,Entity.DUST);
+                            cpt2++;
+                            break;
+                        case 'R':
+                            g.set(cpt2,i,Entity.ROCK);
+                            cpt2++;
+                            break;
+                        case 'B':
+                            g.set(cpt2,i,Entity.BIGROCK);
+                            cpt2++;
+                            break;
+                        case 'C':
+                            g.set(cpt2,i,Entity.CRACK);
+                            cpt2++;
+                            break;
                     }
                 }
-                cpt2 ++;
+
             }
+            else if(a > 57 && c > 57)
+            {
+                //System.out.printf("RRRRx -> ok : " + a + c + "\n");
+                switch(a)
+                {
+                    case 'G':
+                        g.set(cpt2,i,Entity.GROUND);
+                        cpt2++;
+                        break;
+                    case 'D':
+                        g.set(cpt2,i,Entity.DUST);
+                        cpt2++;
+                        break;
+                    case 'R':
+                        g.set(cpt2,i,Entity.ROCK);
+                        cpt2++;
+                        break;
+                    case 'B':
+                        g.set(cpt2,i,Entity.BIGROCK);
+                        cpt2++;
+                        break;
+                    case 'C':
+                        g.set(cpt2,i,Entity.CRACK);
+                        cpt2++;
+                        break;
+                }
+            }
+
         }
         return g;
-        return g;
+
     }
 
     @Override
     public String export(Grid grid) {
-        return null;
+        String s = "";
+        int cpt = 0;
+        boolean test = false;
+        for(int i = 0; i< grid.getHeight();i++) {
+            for (int j = 0; j < grid.getWidth(); j++) {
+
+                if(j != 0)
+                {
+                    if(grid.get(j-1,i) == grid.get(j,i))
+                    {
+                        cpt ++;
+                    }
+                    else if(grid.get(j-1,i) != grid.get(j,i))
+                    {
+                        test = true;
+                    }
+                    else if(j == grid.getWidth())
+                    {
+                        test = true;
+                        j++;
+
+                    }
+                }
+
+                if(test) {
+                    switch (grid.get(j-1, i)) {
+                        case ROCK:
+                            s += 'R';
+                                s += Integer.toString(cpt);
+                                cpt = 1;
+                            test = false;
+                            break;
+                        case DUST:
+                            s += 'D';
+                            s += Integer.toString(cpt);
+                            cpt = 1;
+                         test = false;
+                            break;
+                        case BIGROCK:
+                            s += 'B';
+                            s += Integer.toString(cpt);
+                            cpt = 1;
+                            test = false;
+                            break;
+                        case GROUND:
+                            s += 'G';
+                            s += Integer.toString(cpt);
+                            cpt = 1;
+                            test = false;
+                            break;
+                        case CRACK:
+                            s += 'C';
+                            s += Integer.toString(cpt);
+                            cpt = 1;
+                        test = false;
+                            break;
+                    }
+                }
+
+
+
+            }
+            s+= 'x';
+        }
+        return s;
+
     }
 }
