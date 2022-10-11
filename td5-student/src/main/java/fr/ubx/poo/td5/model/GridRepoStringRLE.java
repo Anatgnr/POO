@@ -146,63 +146,83 @@ public class GridRepoStringRLE implements GridRepo{
     @Override
     public String export(Grid grid) {
         String s = "";
-        int cpt = 0;
+        int cpt = 1;
         boolean test = false;
+        System.out.print("Taille : " + grid.getWidth() + "\n") ;
         for(int i = 0; i< grid.getHeight();i++) {
-            for (int j = 0; j < grid.getWidth(); j++) {
 
-                if(j != 0)
+            for (int j = 0; j < grid.getWidth(); j++) {
+                System.out.print( "J : " + j + "\n");
+
+                if(j != grid.getWidth()-1)
                 {
-                    if(grid.get(j-1,i) == grid.get(j,i))
+                    if(grid.get(j+1,i) == grid.get(j,i) )
                     {
                         cpt ++;
+                        //System.out.print("compteur : " + cpt + "\n");
                     }
-                    else if(grid.get(j-1,i) != grid.get(j,i))
+                    else if(grid.get(j+1,i) != grid.get(j,i) )
                     {
                         test = true;
+
+                        //System.out.print("first true : " + grid.get(j-1, i) + cpt +"\n");
                     }
-                    else if(j == grid.getWidth())
+                }
+                else if(j == grid.getWidth() -1)
+                {
+                    if(grid.get(j,i) == grid.get(j-1,i) && cpt == 1)
                     {
-                        test = true;
-                        j++;
+                        cpt++;
 
                     }
+                    test = true;
                 }
 
                 if(test) {
-                    switch (grid.get(j-1, i)) {
+                    switch (grid.get(j, i)) {
                         case ROCK:
                             s += 'R';
+                            if(cpt > 1) {
                                 s += Integer.toString(cpt);
                                 cpt = 1;
+                            }
                             test = false;
                             break;
                         case DUST:
                             s += 'D';
-                            s += Integer.toString(cpt);
-                            cpt = 1;
+                            if(cpt > 1) {
+                                s += Integer.toString(cpt);
+                                cpt = 1;
+                            }
                          test = false;
                             break;
                         case BIGROCK:
                             s += 'B';
-                            s += Integer.toString(cpt);
-                            cpt = 1;
+                            if(cpt > 1) {
+                                s += Integer.toString(cpt);
+                                cpt = 1;
+                            }
                             test = false;
                             break;
                         case GROUND:
                             s += 'G';
-                            s += Integer.toString(cpt);
-                            cpt = 1;
+                            if(cpt > 1) {
+                                s += Integer.toString(cpt);
+                                cpt = 1;
+                            }
                             test = false;
                             break;
                         case CRACK:
                             s += 'C';
-                            s += Integer.toString(cpt);
-                            cpt = 1;
+                            if(cpt > 1) {
+                                s += Integer.toString(cpt);
+                                cpt = 1;
+                            }
                         test = false;
                             break;
                     }
                 }
+
 
 
 
