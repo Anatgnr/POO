@@ -3,6 +3,20 @@ package fr.ubx.poo.td5.model;
 public class GridRepoString implements GridRepo{
     final char EOL = 'x';
 
+
+    public static Grid create(int width, int height) {
+    Grid grid = new Grid(width,height);
+
+    for(int i = 0 ; i < height ; i++)
+    {
+        for(int j = 0 ; j < width ; j++)
+        {
+            grid.set(i,j,Entity.GROUND);
+        }
+    }
+        return grid;
+    }
+
     @Override
     public Grid load(String string) {
         Grid g;

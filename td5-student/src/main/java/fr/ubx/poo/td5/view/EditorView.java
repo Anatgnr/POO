@@ -7,7 +7,11 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.swing.*;
+import java.io.File;
 
 public class EditorView extends BorderPane {
     private final Stage stage;
@@ -16,10 +20,13 @@ public class EditorView extends BorderPane {
     private final Clipboard clipboard = Clipboard.getSystemClipboard();
     private final ClipboardContent clipboardContent = new ClipboardContent();
 
+
+
+
     public EditorView(Stage stage)  {
         this.stage = stage;
         GridRepo gridRepoVar = new GridRepoVar();
-        GridRepo gridRepoString = new GridRepoString();
+        GridRepoString gridRepoString = new GridRepoString();
         GridRepo gridRepoStringRLE = new GridRepoStringRLE();
 
         // Tile picker
@@ -37,14 +44,39 @@ public class EditorView extends BorderPane {
         MenuItem loadItemSZ = new MenuItem("Load from compressed string");
         MenuItem exportItemSZ = new MenuItem("Export as compressed string");
         MenuItem exitItem = new MenuItem("Exit");
+        MenuItem newItem = new MenuItem("New map");
+        MenuItem loadItemF = new MenuItem("Load File");
+        MenuItem exportItemF = new MenuItem("Save File");
+
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Q"));
         fileMenu.getItems().addAll(
                 loadItemJ, exportItemJ, new SeparatorMenuItem(),
                 loadItemS, exportItemS, new SeparatorMenuItem(),
                 loadItemSZ, exportItemSZ, new SeparatorMenuItem(),
-                exitItem);
+                exitItem, new SeparatorMenuItem(),
+                newItem, new SeparatorMenuItem(), loadItemF, exportItemF);
         menuBar.getMenus().addAll(fileMenu);
         this.setTop(menuBar);
+
+
+        // Load from file
+
+        loadItemF.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                // Chargement depuis un fichier (avec compression)
+            }
+        });
+
+// Export to file
+        exportItemF.setOnAction(e -> {
+            FileChooser fileChooser =  new FileChooser();
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                // Sauvegarde dans un fichier (avec compression)
+            }
+        });
 
 
         // Load from Java declaration
@@ -52,6 +84,20 @@ public class EditorView extends BorderPane {
             Form form = new Form(stage, "Name field");
             this.grid = gridRepoVar.load(form.getText());
             updateGrid(grid);
+        });
+        newItem.setOnAction(e -> {
+            Form form = new Form(stage, "Size of the map : width x height");
+            String[] parts = form.getText().replaceAll("\\s+","").split("x");
+            if (parts.length != 2)
+                return;
+            try {
+                int x = Integer.parseInt(parts[0]);
+                int y = Integer.parseInt(parts[1]);
+                this.grid = ((GridRepoString) gridRepoString).create(x, y);
+                updateGrid(grid);
+            } catch (NumberFormatException numberFormatException) {
+                return;
+            }
         });
 
         // Export as Java declaration
