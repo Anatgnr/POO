@@ -95,7 +95,16 @@ public class EditorView extends BorderPane {
             FileChooser fileChooser =  new FileChooser();
             File file = fileChooser.showSaveDialog(stage);
             if (file != null) {
-                // Sauvegarde dans un fichier (avec compression)
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    String str = gridRepoStringRLE.export(grid);
+                    System.out.print(str);
+                    writer.write(str);
+                    writer.flush();
+                    writer.close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
