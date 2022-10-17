@@ -11,7 +11,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.io.File;
+import java.io.*;
+import java.nio.file.Files;
 
 public class EditorView extends BorderPane {
     private final Stage stage;
@@ -64,8 +65,28 @@ public class EditorView extends BorderPane {
         loadItemF.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             File file = fileChooser.showOpenDialog(stage);
+            //fileChooser.showSaveDialog(stage);
+
             if (file != null) {
-                // Chargement depuis un fichier (avec compression)
+
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                    String line = reader.readLine();
+                    StringBuilder sb = new StringBuilder();
+                    //Files.lines(file.toPath()).forEach(System.out::println);
+                    System.out.printf(line);
+
+                    this.grid = gridRepoStringRLE.load(line);
+                    updateGrid(grid);
+
+
+
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             }
         });
 
